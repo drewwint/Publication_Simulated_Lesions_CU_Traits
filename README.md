@@ -1,4 +1,4 @@
-# Publication_Simulated_Lesions_CU_Traits
+# Publication: Computatationally Simulated Lesions and Callous-Unemotional Traits
 This is the repository for a project in progress where we computationally simulated lesions across individual-level functoinal connectoms in relation to CU traits.
 
 Here you will find analysis code as well as masks used for meta-analysis. 
