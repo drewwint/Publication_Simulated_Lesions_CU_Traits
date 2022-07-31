@@ -1174,7 +1174,7 @@ reduced_dataframe.corr()[['tanner','modularity']][3:]
 
 
 
-tanner_mod = reduced_dataframe.corr()['tanner'][3:][(reduced_dataframe.corr()['tanner'][3:] > (np.median(reduced_dataframe.corr()['tanner'][3:]) + (reduced_dataframe.corr()['tanner'][3:]).mad())) | (reduced_dataframe.corr()['tanner'][3:] < (np.median(reduced_dataframe.corr()['tanner'][3:]) - (reduced_dataframe.corr()['tanner'][3:]).mad()*2))]
+tanner_mod = reduced_dataframe.corr()['tanner'][3:][(reduced_dataframe.corr()['tanner'][3:] > (np.median(reduced_dataframe.corr()['tanner'][3:]) + (reduced_dataframe.corr()['tanner'][3:]).mad()*2)) | (reduced_dataframe.corr()['tanner'][3:] < (np.median(reduced_dataframe.corr()['tanner'][3:]) - (reduced_dataframe.corr()['tanner'][3:]).mad()*2))]
 
 tanner_mod
 
@@ -1184,7 +1184,7 @@ tanner_mod_n
 
 
 
-modularity_mod = reduced_dataframe.corr()['modularity'][3:][(reduced_dataframe.corr()['modularity'][3:] > (np.median(reduced_dataframe.corr()['modularity'][3:]) + (reduced_dataframe.corr()['modularity'][3:]).mad())) | (reduced_dataframe.corr()['modularity'][3:] < (np.median(reduced_dataframe.corr()['modularity'][3:]) - (reduced_dataframe.corr()['modularity'][3:]).mad()*2))]
+modularity_mod = reduced_dataframe.corr()['modularity'][3:][(reduced_dataframe.corr()['modularity'][3:] > (np.median(reduced_dataframe.corr()['modularity'][3:]) + (reduced_dataframe.corr()['modularity'][3:]).mad()*2)) | (reduced_dataframe.corr()['modularity'][3:] < (np.median(reduced_dataframe.corr()['modularity'][3:]) - (reduced_dataframe.corr()['modularity'][3:]).mad()*2))]
 
 modularity_mod
 
