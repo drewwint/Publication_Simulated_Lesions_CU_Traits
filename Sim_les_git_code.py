@@ -1,7 +1,7 @@
 ################################################################################
-# Code for: Computatoinal Lesionoing of Heterogenous Functional Connectomes ####
-########### Explains Variance in Callous-Unemotional Traits ####################
-################################################################################
+# Code for: Computatoinal Lesionoing of Heterogenous Functional Connectomes    #
+#          Explains Variance in Callous-Unemotional Traits                     #
+#                                                                              #
 ##################### Code by: Drew E. Winters. PhD. ###########################
 ################################################################################
 
