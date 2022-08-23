@@ -211,10 +211,12 @@ with parallel_backend('threading', n_jobs=12):
 
 # Delta dataframes -- EFFICIENCY DELTA
 
-node_eff_delta = pd.DataFrame(np.vstack([delta_eff[0]]),columns=['node_eff_' + sub for sub in labels]) 
+node_eff_delta = pd.DataFrame(np.vstack([delta_eff[0]]),c
+                              olumns=['node_eff_' + sub for sub in labels]) 
 for i in range(1,len(delta_eff)):
   #print(i)
-  node_eff_delta = pd.DataFrame(np.vstack([node_eff_delta,delta_eff[i]]),columns=['node_eff_' + sub for sub in labels]) 
+  node_eff_delta = pd.DataFrame(np.vstack([node_eff_delta,delta_eff[i]]),
+                                columns=['node_eff_' + sub for sub in labels]) 
 
 
 
@@ -362,9 +364,17 @@ mod_deg=[] # within-module degree z-score
 dense = []# this is just the overall density of the network 
 
 for i in range(0,len(prec_mat)):
-  mod.append(bct.modularity_louvain_dir(prec_mat[i], gamma=ind_gamma[i], seed=123)[1])
-  part.append(bct.participation_coef(prec_mat[i], bct.modularity_louvain_dir(prec_mat[i], gamma=ind_gamma[i], seed=123)[0]))
-  mod_deg.append(bct.module_degree_zscore(prec_mat[i], bct.modularity_louvain_dir(prec_mat[i], gamma=ind_gamma[i], seed=123)[0]))
+  mod.append(bct.modularity_louvain_dir(prec_mat[i], 
+                                        gamma=ind_gamma[i], 
+                                        seed=123)[1])
+  part.append(bct.participation_coef(prec_mat[i], 
+                                     bct.modularity_louvain_dir(prec_mat[i], 
+                                                                gamma=ind_gamma[i], 
+                                                                seed=123)[0]))
+  mod_deg.append(bct.module_degree_zscore(prec_mat[i], 
+                                          bct.modularity_louvain_dir(prec_mat[i], 
+                                                                     gamma=ind_gamma[i], 
+                                                                     seed=123)[0]))
   dense.append(bct.density_und(prec_mat[i])[0])
 
 
@@ -398,16 +408,19 @@ for i in range(0,len(part_norm)):
 
 
   # Global hub dataframe
-global_hub_df = pd.DataFrame(np.vstack([global_hub[0]]),columns=['global_h_' + sub for sub in labels]) 
+global_hub_df = pd.DataFrame(np.vstack([global_hub[0]]),
+                             columns=['global_h_' + sub for sub in labels]) 
 for i in range(1,len(global_hub)):
   #print(i)
-  global_hub_df = pd.DataFrame(np.vstack([global_hub_df,global_hub[i]]),columns=['global_h_' + sub for sub in labels]) 
+  global_hub_df = pd.DataFrame(np.vstack([global_hub_df,global_hub[i]]),
+                               columns=['global_h_' + sub for sub in labels]) 
 
 
   # Number of global hubs
 global_sum=[]
 for i in range(0,len(global_hub)):
-  print("Global hubs for participant",i,"=",sum(global_hub[i]), "\n", "% of hubs   =", round((sum(global_hub[i])/len(global_hub[i]))*100,1) ,"%")
+  print("Global hubs for participant",i,"=",sum(global_hub[i]), 
+        "\n", "% of hubs   =", round((sum(global_hub[i])/len(global_hub[i]))*100,1) ,"%")
   global_sum.append(sum(global_hub[i]))
 
 
@@ -433,17 +446,22 @@ for i in range(0,len(mod_deg_norm)):
   # Number of local hubs
 local_sum = []
 for i in range(0,len(local_hub)):
-  print("local hubs for participant",i,"=",sum(local_hub[i]), "\n", "% of hubs =", round((sum(local_hub[i])/len(local_hub[i]))*100,1) ,"%")
+  print("local hubs for participant",i,"=",
+        sum(local_hub[i]), "\n", "% of hubs =", 
+        round((sum(local_hub[i])/len(local_hub[i]))*100,1) ,"%")
   local_sum.append(sum(local_hub[i]))
 
 
 
 
   # Local hub dataframe
-local_hub_df = pd.DataFrame(np.vstack([local_hub[0]]),columns=['local_h_' + sub for sub in labels]) 
+local_hub_df = pd.DataFrame(np.vstack([local_hub[0]]),
+                            columns=['local_h_' + sub for sub in labels]) 
 for i in range(1,len(local_hub)):
   #print(i)
-  local_hub_df = pd.DataFrame(np.vstack([local_hub_df,local_hub[i]]),columns=['local_h_' + sub for sub in labels]) 
+  local_hub_df = pd.DataFrame(np.vstack([local_hub_df,
+                                         local_hub[i]]),
+                              columns=['local_h_' + sub for sub in labels]) 
 
 
 
@@ -466,7 +484,9 @@ for i in range(0,len(part_norm)):
 
 connector_sum = []
 for i in range(0,len(connector_non_hub)):
-  print("connector non-hub for participant",i,"=",sum(connector_non_hub[i]), "\n", "% of hubs =", round((sum(connector_non_hub[i])/len(connector_non_hub[i]))*100,1) ,"%")
+  print("connector non-hub for participant",i,"=",
+        sum(connector_non_hub[i]), "\n", "% of hubs =", 
+        round((sum(connector_non_hub[i])/len(connector_non_hub[i]))*100,1) ,"%")
   connector_sum.append(sum(connector_non_hub[i]))
 
 
@@ -486,7 +506,9 @@ for i in range(0,len(mod_deg_norm)):
 
 periphery_sum = []
 for i in range(0,len(periphery_non_hub)):
-  print("periphery non-hub for participant",i,"=",sum(periphery_non_hub[i]), "\n", "% of hubs =", round((sum(periphery_non_hub[i])/len(periphery_non_hub[i]))*100,1) ,"%")
+  print("periphery non-hub for participant",i,"=",
+        sum(periphery_non_hub[i]), "\n", "% of hubs =", 
+        round((sum(periphery_non_hub[i])/len(periphery_non_hub[i]))*100,1) ,"%")
   periphery_sum.append(sum(periphery_non_hub[i]))
 
 
@@ -634,29 +656,38 @@ node_eff_delta["local_hub"]=np.array(local_sum)
 
   # arrays for node metrics 
 #len(part)
-part_df = pd.DataFrame(np.vstack([part_norm[0]]),columns=['part_' + sub for sub in labels]) 
+part_df = pd.DataFrame(np.vstack([part_norm[0]]),
+                       columns=['part_' + sub for sub in labels]) 
 for i in range(1,len(part)):
   #print(i)
-  part_df = pd.DataFrame(np.vstack([part_df,part_norm[i]]),columns=['part_' + sub for sub in labels]) 
+  part_df = pd.DataFrame(np.vstack([part_df,part_norm[i]]),
+                         columns=['part_' + sub for sub in labels]) 
 
 
   # community structure for each node 
 #len(comm)
-comm_df = pd.DataFrame(np.vstack([comm[0]]),columns=['comm_' + sub for sub in labels]) 
+comm_df = pd.DataFrame(np.vstack([comm[0]]),
+                       columns=['comm_' + sub for sub in labels]) 
 for i in range(1,len(comm)):
   #print(i)
-  comm_df = pd.DataFrame(np.vstack([comm_df,comm[i]]),columns=['comm_' + sub for sub in labels]) 
+  comm_df = pd.DataFrame(np.vstack([comm_df,comm[i]]),
+                         columns=['comm_' + sub for sub in labels]) 
 
   # modularity degree
-mod_deg_df = pd.DataFrame(np.vstack([mod_deg_norm[0]]),columns=['mod_deg_' + sub for sub in labels]) 
+mod_deg_df = pd.DataFrame(np.vstack([mod_deg_norm[0]]),
+                          columns=['mod_deg_' + sub for sub in labels]) 
 for i in range(1,len(mod_deg)):
   #print(i)
-  mod_deg_df = pd.DataFrame(np.vstack([mod_deg_df,mod_deg_norm[i]]),columns=['mod_deg_' + sub for sub in labels]) 
+  mod_deg_df = pd.DataFrame(np.vstack([mod_deg_df,mod_deg_norm[i]]),
+                            columns=['mod_deg_' + sub for sub in labels]) 
 
 
   # Concatenating dataframe
     # concatenating the participation and community detection nodes data
-a = pd.concat([part_df, comm_df, mod_deg_df, node_eff_delta], axis=1)
+a = pd.concat([part_df, 
+               comm_df, 
+               mod_deg_df, 
+               node_eff_delta], axis=1)
 
     # reading rockland data
 dda = pd.read_csv("D:\\IU Box Sync\\2 Dissertation & Qualifying exam\\Rockland Data\\Data_Rockland_SEM\\2_4_19 newest data r code\\2019_6_6_imaging_cases_86_FINAL.csv")
@@ -674,11 +705,15 @@ data.info()
 # ELASTIC NET MODEL
   # Targets and predicting features
 
-pred1 = pd.concat([pd.DataFrame([data.age,data.sex,data.tanner, data.modularity]).T,node_eff_delta.iloc[:,0:164]],axis=1)
+pred1 = pd.concat([pd.DataFrame([data.age,
+                                 data.sex,
+                                 data.tanner, 
+                                 data.modularity]).T,
+                   node_eff_delta.iloc[:,0:164]],axis=1)
 pred1.sex = pred1.sex.astype('object')
 
 
-target = data.ICUY_CALLOUSNESS
+target = data.ICUY_TOTAL
 
 
   # Efficiency Changes
@@ -693,14 +728,21 @@ target = data.ICUY_CALLOUSNESS
   # setting up the model with a preprocessing step
 model = make_pipeline(StandardScaler(),ElasticNet(random_state=42)) 
   # parameters for hyperparamter tuning 
-param_grid = {"elasticnet__alpha": np.logspace(-2, 0, num=20),'elasticnet__l1_ratio': np.logspace(-1.5, 0, num=20)}
+param_grid = {"elasticnet__alpha": np.logspace(-2, 0, num=20),
+              'elasticnet__l1_ratio': np.logspace(-1.5, 0, num=20)}
   # setting up nested cross validation 
 from sklearn.model_selection import StratifiedKFold
-inner_cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=0)
-outer_cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
+inner_cv = StratifiedKFold(n_splits=3, 
+                           shuffle=True, 
+                           random_state=0)
+outer_cv = StratifiedKFold(n_splits=5, 
+                           shuffle=True, 
+                           random_state=0)
   # nested CV model
 model_s = GridSearchCV(
-    estimator=model, param_grid=param_grid, cv=inner_cv)
+  estimator=model, 
+  param_grid=param_grid, 
+  cv=inner_cv)
 
 
 
@@ -728,7 +770,14 @@ pred1_reduced_sex=pd.concat([data.sex, pd.DataFrame(pred1_reduced)],axis=1)
 
 from joblib import parallel_backend
 with parallel_backend('threading', n_jobs=12): 
-  cv_results = cross_validate(model_s, pred1_reduced_sex, target, cv=outer_cv, scoring={'neg_mean_squared_error','r2','neg_mean_absolute_error'}, return_train_score=True)
+  cv_results = cross_validate(model_s, 
+                              pred1_reduced_sex, 
+                              target, 
+                              cv=outer_cv, 
+                              scoring={'neg_mean_squared_error',
+                                       'r2',
+                                       'neg_mean_absolute_error'}, 
+                              return_train_score=True)
 
 
 
@@ -893,10 +942,13 @@ print("number of males =",np.sum(data.sex), "\n" , "% that are male =", round((n
 # FITTING MODEL
   # Hyperparameter tuning 
 from sklearn.linear_model import ElasticNetCV
-tuning = ElasticNetCV(alphas=np.logspace(-2, 0, num=20), l1_ratio= np.logspace(-1.5, 0, num=20), cv=inner_cv).fit(pred1_reduced, target)
+tuning = ElasticNetCV(alphas=np.logspace(-2, 0, num=20), 
+                      l1_ratio= np.logspace(-1.5, 0, num=20), 
+                      cv=inner_cv).fit(pred1_reduced, target)
 
   # Cross validation 
-mm = make_pipeline(StandardScaler(),ElasticNet(alpha=tuning.alpha_, l1_ratio = tuning.l1_ratio_))
+mm = make_pipeline(StandardScaler(),ElasticNet(alpha=tuning.alpha_, 
+                                               l1_ratio = tuning.l1_ratio_))
   
 CV_results = cross_validate(mm, reduced_dataframe, target,
   cv=outer_cv, 
@@ -922,7 +974,9 @@ weights_elasticnet.T
 import matplotlib.pyplot as plt
   
 color = {"whiskers": "black", "medians": "black", "caps": "black"}
-weights_elasticnet.plot.box(color=color, vert=False, figsize=(10, 6))
+weights_elasticnet.plot.box(color=color, 
+                            vert=False, 
+                            figsize=(10, 6))
 _ = plt.title("Cross Validation Weights")
 plt.vlines(0,1,26, color='red') ## adding a vertical line
 plt.tight_layout()
@@ -941,7 +995,11 @@ from matplotlib.pyplot import figure
 sns.set(rc={'figure.figsize':(7.25,2.8)})
 sns.set_style("ticks")
 
-sns.boxplot(x="value", y= "variable", data= pd.melt(weights_elasticnet), color="lightgrey", width=0.6, fliersize=0.5)
+sns.boxplot(x="value", y= "variable", 
+            data= pd.melt(weights_elasticnet), 
+            color="lightgrey",
+            width=0.6, 
+            fliersize=0.5)
 plt.xlabel(None)
 plt.ylabel(None)
 plt.vlines(0,0,25, color='black', linestyles= 'dashed')
@@ -972,7 +1030,12 @@ from sklearn.model_selection import permutation_test_score
 from joblib import parallel_backend
 with parallel_backend('threading', n_jobs=12): 
   score_dat, perm_scores, perm_pvalue = permutation_test_score(
-    mm, reduced_dataframe, target, scoring="r2", cv=outer_cv, n_permutations=2000
+    mm, 
+    reduced_dataframe, 
+    target, 
+    scoring="r2", 
+    cv=outer_cv, 
+    n_permutations=2000
     )
     
   # True R2
@@ -988,7 +1051,9 @@ print("permuted p value =",perm_pvalue, "\n", "rounded permuted p = " ,round(per
 
 fig, ax = plt.subplots()
 ax.set_axis_bgcolor('white')
-sns.histplot(perm_scores_df,bins=200, x="perm_scores", color="lightgrey")
+sns.histplot(perm_scores_df,bins=200, 
+             x="perm_scores", 
+             color="lightgrey")
 sns.despine()
 plt.xlabel("Permutation $R^2$")
 plt.ylabel("Outcome Number")
@@ -999,7 +1064,11 @@ ax.annotate("",
                             connectionstyle="arc3",
                             color = "black"),
             )
-plt.text(score_dat,16,"$P_{perm}$ < 0.001", horizontalalignment='left', size='large', color='black', weight='semibold')
+plt.text(score_dat,16,"$P_{perm}$ < 0.001", 
+         horizontalalignment='left', 
+         size='large', 
+         color='black',
+         weight='semibold')
 
 plt.savefig(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\Figures\perm_r2_efficiency_additional.tiff", dpi=700)
 
@@ -1011,9 +1080,13 @@ plt.tight_layout(), plt.show(), plt.close()
 
 from sklearn.model_selection import train_test_split
 
-train_x, test_x, train_y, test_y = train_test_split(pred1_reduced_sex,target,test_size= .50, random_state=25)
+train_x, test_x, train_y, test_y = train_test_split(pred1_reduced_sex,
+                                                    target,
+                                                    test_size= .50, 
+                                                    random_state=25)
 target_predicted = mm.fit(train_x,train_y).predict(test_x)
-predicted_actual = pd.DataFrame({"True CU Traits": test_y, "Predicted CU Traits": target_predicted})
+predicted_actual = pd.DataFrame({"True CU Traits": test_y, 
+                                 "Predicted CU Traits": target_predicted})
 
 sns.set_style('ticks')
 
@@ -1024,7 +1097,11 @@ sns.regplot(data=predicted_actual,
                 scatter_kws={'alpha':0.5},
                 x_jitter = .3,
                 y_jitter = .1)
-plt.text(12,3,"".join(['R$^2$= ', str(round(score_dat,3)),"$^{***}$"]), horizontalalignment='left', size='large', color='black', weight='semibold')
+plt.text(12,3,"".join(['R$^2$= ', str(round(score_dat,3)),"$^{***}$"]), 
+         horizontalalignment='left', 
+         size='large', 
+         color='black', 
+         weight='semibold')
 
 sns.despine()
 
@@ -1173,7 +1250,10 @@ reduced_dataframe.corr()[['tanner','modularity']][3:]
 
 
 
-tanner_mod = reduced_dataframe.corr()['tanner'][3:][(reduced_dataframe.corr()['tanner'][3:] > (np.median(reduced_dataframe.corr()['tanner'][3:]) + (reduced_dataframe.corr()['tanner'][3:]).mad()*2)) | (reduced_dataframe.corr()['tanner'][3:] < (np.median(reduced_dataframe.corr()['tanner'][3:]) - (reduced_dataframe.corr()['tanner'][3:]).mad()*2))]
+tanner_mod = reduced_dataframe.corr()['tanner'][3:][(reduced_dataframe.corr()['tanner'][3:] > (np.median(reduced_dataframe.corr()['tanner'][3:]) + 
+                                                                                               (reduced_dataframe.corr()['tanner'][3:]).mad()*2)) | 
+                                                    (reduced_dataframe.corr()['tanner'][3:] < (np.median(reduced_dataframe.corr()['tanner'][3:]) - 
+                                                                                               (reduced_dataframe.corr()['tanner'][3:]).mad()*2))]
 
 tanner_mod
 
@@ -1183,7 +1263,10 @@ tanner_mod_n
 
 
 
-modularity_mod = reduced_dataframe.corr()['modularity'][3:][(reduced_dataframe.corr()['modularity'][3:] > (np.median(reduced_dataframe.corr()['modularity'][3:]) + (reduced_dataframe.corr()['modularity'][3:]).mad()*2)) | (reduced_dataframe.corr()['modularity'][3:] < (np.median(reduced_dataframe.corr()['modularity'][3:]) - (reduced_dataframe.corr()['modularity'][3:]).mad()*2))]
+modularity_mod = reduced_dataframe.corr()['modularity'][3:][(reduced_dataframe.corr()['modularity'][3:] > (np.median(reduced_dataframe.corr()['modularity'][3:]) + 
+                                                                                                           (reduced_dataframe.corr()['modularity'][3:]).mad()*2)) | 
+                                                            (reduced_dataframe.corr()['modularity'][3:] < (np.median(reduced_dataframe.corr()['modularity'][3:]) - 
+                                                                                                           (reduced_dataframe.corr()['modularity'][3:]).mad()*2))]
 
 modularity_mod
 
@@ -1258,7 +1341,23 @@ with parallel_backend('threading', n_jobs=12):
        # Store in row r of results_boot:
     results_boot[r,:] = np.asarray(results_r)   
 
-results_boot = pd.DataFrame(results_boot,columns=['b_Intercept','b_aMTG.L.tanner', 'b_ICC.L.tanner', 'b_SMA.L.tanner', 'b_aTFusC.L.tanner', 'b_Ver9.tanner', 'b_Salience.SMG.L.tanner', 'b_aMTG L', 'b_ICC L', 'b_SMA L', 'b_Ver9', 'b_aTFusC L', 'b_Salience.SMG L', 'b_tanner', 'b_sex', 'b_modularity',"group"])
+results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',
+                                                  'b_aMTG.L.tanner', 
+                                                  'b_ICC.L.tanner', 
+                                                  'b_SMA.L.tanner', 
+                                                  'b_aTFusC.L.tanner', 
+                                                  'b_Ver9.tanner', 
+                                                  'b_Salience.SMG.L.tanner', 
+                                                  'b_aMTG L', 
+                                                  'b_ICC L', 
+                                                  'b_SMA L', 
+                                                  'b_Ver9', 
+                                                  'b_aTFusC L', 
+                                                  'b_Salience.SMG L', 
+                                                  'b_tanner', 
+                                                  'b_sex', 
+                                                  'b_modularity',
+                                                 'group'])
 
 
 pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(results_boot.shape[1]-1)].T
@@ -1305,11 +1404,30 @@ with parallel_backend('threading', n_jobs=12):
     random.seed(741)
     this_sample = np.random.choice(row_id, size=modularity_mod_bs.shape[0], replace=True) # gives sampled row numbers
        # Estimate model
-    results_r = smf.mixedlm(target[this_sample], modularity_mod.iloc[this sample], groups=modularity_mod.index).fit().params   
+    results_r = smf.mixedlm(target[this_sample], modularity_mod.iloc[this sample], 
+                            groups=modularity_mod.index).fit().params   
        # Store in row r of results_boot:
     results_boot[r,:] = np.asarray(results_r)   
 
-results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',"AC.modularity",	"aTFusC.L.modularity",	"DefaultMode.PCC.modularity",	"Ver3.modularity",	"Ver9.modularity",	"Salience.AInsula.R.modularity", "Cerebellar.Anterior.modularity",	"AC",	"aTFusC L",	"DefaultMode.PCC",	"Ver3",	"Ver9",	"Salience.SMG L",	"Cerebellar.Anterior",	"tanner",	"sex",	"modularity","group"])
+results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',
+                                                  "AC.modularity",	
+                                                  "aTFusC.L.modularity",	
+                                                  "DefaultMode.PCC.modularity",
+                                                  "Ver3.modularity",	
+                                                  "Ver9.modularity",	
+                                                  "Salience.AInsula.R.modularity", 
+                                                  "Cerebellar.Anterior.modularity",	
+                                                  "AC",	
+                                                  "aTFusC L",	
+                                                  "DefaultMode.PCC",	
+                                                  "Ver3",	
+                                                  "Ver9",	
+                                                  "Salience.SMG L",	
+                                                  "Cerebellar.Anterior",	
+                                                  "tanner",
+                                                  "sex",	
+                                                  "modularity",
+                                                  "group"])
 
 
 
@@ -1372,7 +1490,10 @@ from scipy import stats
 results2 = sm.MixedLM(target, IV, groups = target.index).fit()
 results2.summary()
 
-pd.DataFrame({"STD_global_params":sm.MixedLM(stats.zscore(target), IV.apply(stats.zscore),groups = target.index).fit().params, "p_vals":round(results1.pvalues,4)}).iloc[0:(len(results1.params)-1),:]
+pd.DataFrame({"STD_global_params":sm.MixedLM(stats.zscore(target), 
+                                             IV.apply(stats.zscore),
+                                             groups = target.index).fit().params, 
+              "p_vals":round(results1.pvalues,4)}).iloc[0:(len(results1.params)-1),:]
 
 
 
@@ -1419,7 +1540,10 @@ warnings.filterwarnings('ignore')
 results = sm.MixedLM(target, local_hub_df[new_names[3:]], groups=target.index).fit()
 results.summary()
 
-pd.DataFrame({"STD_LOCAL_params":sm.MixedLM(stats.zscore(target), local_hub_df[new_names[3:]].apply(stats.zscore), groups=target.index).fit().params,"p_vals":round(results.pvalues,4)}).iloc[0:(len(results.params)-1),:]
+pd.DataFrame({"STD_LOCAL_params":sm.MixedLM(stats.zscore(target), 
+                                            local_hub_df[new_names[3:]].apply(stats.zscore), 
+                                            groups=target.index).fit().params,
+              "p_vals":round(results.pvalues,4)}).iloc[0:(len(results.params)-1),:]
 
 
 
@@ -1433,14 +1557,18 @@ def decision(probability):
 # globaL
 random.seed(789)
 
-glob_prob = pd.DataFrame({"prob_global":np.sum(global_hub_df[new_names[3:]],axis=0)/len(global_hub_df), "prob_test":decision(np.sum(global_hub_df[new_names[3:]],axis=0)/len(global_hub_df)),"sum":np.sum(global_hub_df[new_names[3:]],axis=0)})
+glob_prob = pd.DataFrame({"prob_global":np.sum(global_hub_df[new_names[3:]],axis=0)/len(global_hub_df), 
+                          "prob_test":decision(np.sum(global_hub_df[new_names[3:]],axis=0)/len(global_hub_df)),
+                          "sum":np.sum(global_hub_df[new_names[3:]],axis=0)})
 glob_prob
 
 
 # local
 random.seed(789)
 
-glob_prob = pd.DataFrame({"prob_local":np.sum(local_hub_df[new_names[3:]],axis=0)/len(local_hub_df), "prob_test":decision(np.sum(local_hub_df[new_names[3:]],axis=0)/len(local_hub_df)),"sum":np.sum(local_hub_df[new_names[3:]],axis=0)})
+glob_prob = pd.DataFrame({"prob_local":np.sum(local_hub_df[new_names[3:]],axis=0)/len(local_hub_df), 
+                          "prob_test":decision(np.sum(local_hub_df[new_names[3:]],axis=0)/len(local_hub_df)),
+                          "sum":np.sum(local_hub_df[new_names[3:]],axis=0)})
 glob_prob
 
 
@@ -1467,13 +1595,14 @@ z= pd.concat([pd.DataFrame({"delta_local_eff_mean": delta_local_eff_mean,
   data.tanner, 
   data.sex, 
   data.modularity, 
-  data.ICUY_CALLOUSNESS],axis=1)
+  data.ICUY_TOTAL],axis=1)
 
 df_z = z.apply(stats.zscore) 
 
 
 # UN-standardized coefficients 
-results = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", data=z, groups=z.index).fit() # , re_formula=" ~ delta_global_eff_mean + delta_local_eff_mean"
+results = smf.mixedlm("ICUY_TOTAL ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", 
+                      data=z, groups=z.index).fit() 
 results.summary()
 
 # Bootstrapping 
@@ -1488,11 +1617,18 @@ for r in range(R):
      # Define data for this replicate:    
   z_r = z.iloc[this_sample]   
      # Estimate model
-  results_r = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", data=z_r, groups=z.index).fit().params   
+  results_r = smf.mixedlm("ICUY_TOTAL ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", 
+                          data=z_r, groups=z.index).fit().params   
      # Store in row r of results_boot:
   results_boot[r,:] = np.asarray(results_r)   
 
-results_boot = pd.DataFrame(results_boot,columns=['b_Intercept','b_delta_global_eff_mean','b_delta_local_eff_mean','b_modularity', 'b_tanner','b_sex',"group"])
+results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',
+                                                  'b_delta_global_eff_mean',
+                                                  'b_delta_local_eff_mean',
+                                                  'b_modularity', 
+                                                  'b_tanner',
+                                                  'b_sex',
+                                                  'group'])
 
 
 pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(results_boot.shape[1]-1)].T
@@ -1500,7 +1636,8 @@ pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(resul
 
 
 # Standardized coefficients 
-results = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", data=df_z, groups=df_z.index).fit()
+results = smf.mixedlm("ICUY_TOTAL ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", 
+                      data=df_z, groups=df_z.index).fit()
 results.summary()
 
 
@@ -1515,11 +1652,18 @@ for r in range(R):
      # Define data for this replicate:    
   z_r = df_z.iloc[this_sample]   
      # Estimate model
-  results_r = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", data=z_r, groups=df_z.index).fit().params   
+  results_r = smf.mixedlm("ICUY_TOTAL ~ delta_global_eff_mean + delta_local_eff_mean + modularity + tanner + sex", 
+                          data=z_r, groups=df_z.index).fit().params   
      # Store in row r of results_boot:
   results_boot[r,:] = np.asarray(results_r)   
 
-results_boot = pd.DataFrame(results_boot,columns=['b_Intercept','b_delta_global_eff_mean','b_delta_local_eff_mean', 'b_modularity', 'b_tanner','b_sex',"group"])
+results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',
+                                                  'b_delta_global_eff_mean',
+                                                  'b_delta_local_eff_mean', 
+                                                  'b_modularity', 
+                                                  'b_tanner',
+                                                  'b_sex',
+                                                  "group"])
 
 
 pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(results_boot.shape[1]-1)].T
@@ -1532,7 +1676,8 @@ pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(resul
 # connector or periphery 
 # UN-standardized coefficients 
 
-results = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", data=z, groups=z.index).fit() # , re_formula=" ~ delta_connector_eff_mean + delta_periphery_eff_mean"
+results = smf.mixedlm("ICUY_TOTAL ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", 
+                      data=z, groups=z.index).fit() 
 results.summary()
 
 
@@ -1548,18 +1693,26 @@ for r in range(R):
      # Define data for this replicate:    
   z_r = z.iloc[this_sample]   
      # Estimate model
-  results_r = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", data=z_r, groups=z.index).fit().params   
+  results_r = smf.mixedlm("ICUY_TOTAL ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", 
+                          data=z_r, groups=z.index).fit().params   
      # Store in row r of results_boot:
   results_boot[r,:] = np.asarray(results_r)   
 
-results_boot = pd.DataFrame(results_boot,columns=['b_Intercept','b_delta_connector_eff_mean','b_delta_periphery_eff_mean','b_modularity', 'b_tanner','b_sex',"group"])
+results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',
+                                                  'b_delta_connector_eff_mean',
+                                                  'b_delta_periphery_eff_mean',
+                                                  'b_modularity', 
+                                                  'b_tanner',
+                                                  'b_sex',
+                                                  'group'])
 
 
 pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(results_boot.shape[1]-1)].T
 
 
 # Standardized coefficients 
-results = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", data=df_z, groups=df_z.index).fit()
+results = smf.mixedlm("ICUY_TOTAL ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", 
+                      data=df_z, groups=df_z.index).fit()
 results.summary()
 
 R = 2000 ## how many bootstraps
@@ -1573,11 +1726,18 @@ for r in range(R):
      # Define data for this replicate:    
   z_r = df_z.iloc[this_sample]   
      # Estimate model
-  results_r = smf.mixedlm("ICUY_CALLOUSNESS ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", data=z_r, groups=df_z.index).fit().params   
+  results_r = smf.mixedlm("ICUY_TOTAL ~ delta_connector_eff_mean + delta_periphery_eff_mean + modularity + tanner + sex", 
+                          data=z_r, groups=df_z.index).fit().params   
      # Store in row r of results_boot:
   results_boot[r,:] = np.asarray(results_r)   
 
-results_boot = pd.DataFrame(results_boot,columns=['b_Intercept','b_delta_connector_eff_mean','b_delta_periphery_eff_mean', 'b_modularity', 'b_tanner','b_sex',"group"])
+results_boot = pd.DataFrame(results_boot,columns=['b_Intercept',
+                                                  'b_delta_connector_eff_mean',
+                                                  'b_delta_periphery_eff_mean', 
+                                                  'b_modularity', 
+                                                  'b_tanner',
+                                                  'b_sex',
+                                                  'group'])
 
 
 pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(results_boot.shape[1]-1)].T
@@ -1609,8 +1769,11 @@ hi_low_cu = np.concatenate((hi_cu, np.flip(low_cu)[[0,2,1]]))
 
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(7,4.8))
 for ax,i in zip(axes.flatten(),hi_low_cu):
-  display = plotting.plot_markers((global_hub_df.iloc[i,:] + (-local_hub_df.iloc[i,:]))[list(np.where((global_hub_df.iloc[i,:] + (local_hub_df.iloc[i,:]))==1)[0])], 
-  coords.iloc[list(np.where((global_hub_df.iloc[i,:] + (local_hub_df.iloc[i,:]))==1)[0])], 
+  display = plotting.plot_markers((global_hub_df.iloc[i,:] + 
+                                   (-local_hub_df.iloc[i,:]))[list(np.where((global_hub_df.iloc[i,:] + 
+                                                                             (local_hub_df.iloc[i,:]))==1)[0])], 
+  coords.iloc[list(np.where((global_hub_df.iloc[i,:] + 
+                             (local_hub_df.iloc[i,:]))==1)[0])], 
   node_size=40, 
   display_mode="z", 
   alpha = 0.6,
@@ -1639,8 +1802,11 @@ hi_low_cu = np.concatenate((hi_cu, np.flip(low_cu)[[0,2,1]]))
 
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(7,4.8))
 for ax,i in zip(axes.flatten(),hi_low_cu):
-  display = plotting.plot_markers((pd.DataFrame(connector_non_hub).iloc[i,:] + (-local_hub_df.iloc[i,:]))[list(np.where((pd.DataFrame(connector_non_hub).iloc[i,:] + (pd.DataFrame(periphery_non_hub).iloc[i,:]))==1)[0])], 
-  coords.iloc[list(np.where((pd.DataFrame(connector_non_hub).iloc[i,:] + (pd.DataFrame(periphery_non_hub).iloc[i,:]))==1)[0])], 
+  display = plotting.plot_markers((pd.DataFrame(connector_non_hub).iloc[i,:] + 
+                                   (-local_hub_df.iloc[i,:]))[list(np.where((pd.DataFrame(connector_non_hub).iloc[i,:] + 
+                                                                             (pd.DataFrame(periphery_non_hub).iloc[i,:]))==1)[0])], 
+  coords.iloc[list(np.where((pd.DataFrame(connector_non_hub).iloc[i,:] + 
+                             (pd.DataFrame(periphery_non_hub).iloc[i,:]))==1)[0])], 
   node_size=40, 
   display_mode="z", 
   alpha = 0.6,
@@ -1710,8 +1876,7 @@ for ax,i in zip(axes.flatten(),hi_low_cu):
 plt.text(-610,205,"High CU", weight= "semibold", fontsize=12 )
 plt.text(-610,-30,"Low CU", weight= "semibold", fontsize=12 )
 plt.text(-380,330,"Thresholded Connectome", weight= "semibold", fontsize=14 )
-
-plt.savefig(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\Figures\brain_connectome_additional.tiff", dpi=700)
+#plt.savefig(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\Figures\brain_connectome_additional.tiff", dpi=700)
 
 plt.show(), plt.close()
 
@@ -1723,16 +1888,20 @@ plt.show(), plt.close()
 
 # meta-analytic decoding plot
 
-
-
-
-
 neurosy = pd.read_csv(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\neurosynth_results_wide.csv")
 
 neurosy = neurosy.sort_values('total', ascending = True)
 
-sns.barplot(x = 'Psychopathy',  y= 'Brain Area',label = 'Psychopathy', color = 'lightgrey', data= neurosy)
-sns.barplot(x = 'Callous-Unemotional',  y='Brain Area', label = 'Callous-Unemotional', color = 'grey', data= neurosy)
+sns.barplot(x = 'Psychopathy',  
+            y= 'Brain Area',
+            label = 'Psychopathy', 
+            color = 'lightgrey', 
+            data= neurosy)
+sns.barplot(x = 'Callous-Unemotional',  
+            y='Brain Area', 
+            label = 'Callous-Unemotional', 
+            color = 'grey', 
+            data= neurosy)
 sns.despine(left=True, bottom=True)
 plt.legend(loc = "upper right")
 plt.xlabel("Meta-Analytic Loading Value")
@@ -1742,10 +1911,6 @@ plt.gcf().subplots_adjust(left=0.25) ## adjusting so you can see the figure labe
 
 plt.show(), plt.close()
 
-
-
-
-#### greater that loadings of 0.05
 
 
 
@@ -1791,7 +1956,6 @@ plt.ylabel("Count")
 sns.despine()
 # plt.savefig(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\Figures\hubs_non_hubs_all.tiff", dpi=700)
 
-
 plt.show(), plt.close()
 
 
@@ -1799,20 +1963,33 @@ plt.show(), plt.close()
 
 
 
-dd = pd.DataFrame({"global_sum":local_sum,"local_sum":global_sum,"connector_sum":connector_sum,"periphery_sum":periphery_sum, "index": range(0,86)})
-sns.barplot(y="local_sum", x= 'index', data= dd, color = "lightgrey", label = "Local")
-sns.barplot(y="global_sum", x= 'index', data= dd, color= "grey", label = "Global")
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 0.01),
-          ncol=2, fancybox=True, shadow=True)
+dd = pd.DataFrame({"global_sum":local_sum,
+                   "local_sum":global_sum,
+                   "connector_sum":connector_sum,
+                   "periphery_sum":periphery_sum, 
+                   "index": range(0,86)})
+sns.barplot(y="local_sum", 
+            x= 'index', 
+            data= dd, 
+            color = "lightgrey", 
+            label = "Local")
+sns.barplot(y="global_sum", 
+            x= 'index', 
+            data= dd, 
+            color= "grey", 
+            label = "Global")
+plt.legend(loc='upper center', 
+           bbox_to_anchor=(0.5, 0.01),
+          ncol=2, 
+           fancybox=True, 
+           shadow=True)
 plt.tick_params(axis='x',          # changes apply to the x-axis
     which='both',      # both major and minor ticks are affected
     bottom=False,      # ticks along the bottom edge are off
     top=False,         # ticks along the top edge are off
     labelbottom=False)
 plt.ylabel("Count")
-
 # plt.savefig(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\Figures\hubs_only.tiff", dpi=700)
-
 
 plt.show(), plt.close()
 
