@@ -25,11 +25,11 @@ import pandas as pd     #
 import numpy as np      # 
 import re # for data manipulation to remove prefix/suffix using regex
 
-  # for network analysis stuff
+  # for network analysis
 import networkx as nx   # for network analysis
 import bct              # brain connectivity toolbox
 
-  # system stuff
+  # system
 import warnings         # what to do with warnings
 warnings.filterwarnings('ignore')
 from joblib import parallel_backend ## parallel processing 
@@ -50,7 +50,6 @@ from sklearn.model_selection import cross_val_score, KFold, cross_validate
 from scipy.stats import loguniform
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import StratifiedKFold
-  # from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import ElasticNet
 from sklearn.model_selection import permutation_test_score # for permutation testing
 
@@ -62,11 +61,12 @@ from scipy import stats
 import random
 from sklearn.metrics import rand_score, adjusted_rand_score # similarity between community detection iterations. 
 
-# brain stuff
+  # centered residual interaction terms
+from resmod.single import residual_center
+
+  # brain data tools
 import nltools ## to create the mask
 import nibabel as nib ## manipulate nii.gz files
-
-
 
 
 # Data
@@ -80,32 +80,24 @@ import nibabel as nib ## manipulate nii.gz files
   # -  link describing labels = <https://www.nitrc.org/frs/shownotes.php?release_id=2823>
   # -  link describing coordinates = <https://www.nitrc.org/forum/forum.php?thread_id=11220&forum_id=1144>
 
-  # LABELS
 
+  # LABELS
 labels = pd.read_csv(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\CU traits and ANTS cog funct\Subj_timeseries_denoised\ROInames.csv", header=None).iloc[:,3:167]
 labels = np.array(labels)[0]
 
 
-
   # COORDINATES
-
-
 coords = pd.read_csv(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\CONN_coordinates NO LABELS.csv", header=None)
 coords.columns = ["x", "y", "z"] ## If I want to add this - not sure
 
 
-
-
-  # FILE NAMES LIST
-
-
-# creaing a list of the file names 
+# FILE NAMES LIST
+  # creaing a list of the file names 
 import glob
 csv_list = glob.glob(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\CU traits and ANTS cog funct\Subj_timeseries_denoised\ROI*")[2:88]
 
 for i in range(0,len(csv_list)):
   print(os.path.basename(os.path.normpath(csv_list[i])))
-
 
 
 
@@ -167,8 +159,6 @@ with parallel_backend('threading', n_jobs=12):  ## running parallel processes fo
 
 
 
-
-
 # SIMULATED LESIONS
 
   # Loop: functional node removal
@@ -181,7 +171,6 @@ with parallel_backend('threading', n_jobs=12):  ## running parallel processes fo
   # - what the value represents is the entire matrix 
   #   * efficiency after removing the node
   #   * modularity after removing the node
-
 
 
 
@@ -203,8 +192,6 @@ with parallel_backend('threading', n_jobs=12):
       d = bct.distance_bin(np.array(CIJ_lesion)) ## not sure this is necessary but I could add .astype(int)
       eff_lesion.append(bct.charpath(d)[1]) # note I am indicating [1] becaues that is the efficiency.
     delta_eff.append(eff_lesion-eff) # delta efficiency array
-
-
 
 
 
@@ -903,12 +890,7 @@ for i in dls3:
   dls4.append(re.sub(r' r',' R', str(i)))
 
 
-
 new_names=dls4
-
-
-
-
 
 
 
@@ -935,7 +917,6 @@ pd.set_option('max_columns', None)
 pd.DataFrame(reduced_dataframe.describe(percentiles=[]).T).iloc[:,[3,5,1,2]]
 
 print("number of males =",np.sum(data.sex), "\n" , "% that are male =", round((np.sum(data.sex)/len(data.sex))*100,1) , "%")
-
 
 
 
@@ -984,8 +965,6 @@ plt.tight_layout()
 # plt.savefig(r"C:\Users\wintersd\OneDrive - The University of Colorado Denver\1 Publications\Simulated lesions and network analyses\Figures\efficiency_CV_Weights_additional.tiff", dpi=700)
   
 plt.show(), plt.close()
-
-
 
 
 
@@ -1203,7 +1182,6 @@ plt.tight_layout(),plt.show(), plt.close()
 
 
 
-
 #3
 display = PartialDependenceDisplay.from_estimator(
   mm,
@@ -1279,37 +1257,41 @@ modularity_mod_n
 
 
 # CREATING CENTERED RESIDUALS
-# this code was run in R because tests for the same code in python did not produce the same results
-  # so I ran thsi in r then ported back to python 
+  # creating lists to run multiple functions in for loop
+tan_l = list(["aMTG.L" , "ICC.L" , "SMA.L", "aTFusC.L", "Ver9", "Salience.SMG.L"])
+mod_l  = list(["AC", "aTFusC.L", "Ver3","Ver9","DefaultMode.PCC","Salience.AInsula.R","Cerebellar.Anterior"])
 
-# R code
-# py$reduced_dataframe$aMTG.L <- py$reduced_dataframe$`aMTG L`
-# py$reduced_dataframe$ICC.L <- py$reduced_dataframe$`ICC L`
-# py$reduced_dataframe$SMA.L <- py$reduced_dataframe$`SMA L`
-# py$reduced_dataframe$aTFusC.L <- py$reduced_dataframe$`aTFusC L`
-# py$reduced_dataframe$Ver9 <- py$reduced_dataframe$`Ver9`
-# py$reduced_dataframe$Salience.SMG.L <- py$reduced_dataframe$`Salience.SMG L`
-# 
-# py$reduced_dataframe$Salience.AInsula.R <- py$reduced_dataframe$`Salience.AInsula R`
-# 
-# 
-# mod_df <- semTools::orthogonalize(py$reduced_dataframe, c("aMTG.L" , "ICC.L" , "SMA.L", "aTFusC.L", "Ver9", "Salience.SMG.L", "AC", "aTFusC.L", "Ver3","Ver9","DefaultMode.PCC","Salience.AInsula.R","Cerebellar.Anterior"), c("tanner","tanner","tanner","tanner","tanner","tanner","modularity","modularity","modularity","modularity","modularity","modularity","modularity"))
+  # interactions with tanner
+tan_mod = []
+for i in tan_l:
+  tan_mod.append(residual_center(reduced_dataframe[,i],reduced_dataframe.tanner))
 
+    # dataframe with new names
+tan_dat = pd.DataFrame(tan_l, columns = [sub + ".tanner" for sub in tan_l])
 
-  # note this is pulling from r into python using r. (see r reticulate documentation)
-# r.mod_df.columns
+  # interactions with modulariyt 
+mod_mod = []
+for i in mod_l:
+  mod_mod.append(residual_center(reduced_dataframe[,i],reduced_dataframe.modularity))
+
+    # dataframe with new names
+mod_dat = pd.DataFrame(mod_l, columns = [sub + ".modularity" for sub in mod_l])
+
+  # concatenating dataframes
+mod_df = pd.concat([tan_mod, mod_mod], axis=1)
+mod_df = pd.concat([reduced_dataframe, mod_df], axis=1)
 
 
 
   # Moderation Tanner
     # dataframe
 tanner_mod = pd.concat([pd.DataFrame({
-  "aMTG.L.tanner": r.mod_df['aMTG.L.tanner'],
-  "ICC.L.tanner": r.mod_df['ICC.L.tanner'],
-  "SMA.L.tanner": r.mod_df['SMA.L.tanner'],
-  "aTFusC.L.tanner": r.mod_df['aTFusC.L.tanner'],
-  "Ver9.tanner": r.mod_df['Ver9.tanner'],
-  "Salience.SMG.L.tanner": r.mod_df['Salience.SMG.L.tanner']}),
+  "aMTG.L.tanner": mod_df['aMTG.L.tanner'],
+  "ICC.L.tanner": mod_df['ICC.L.tanner'],
+  "SMA.L.tanner": mod_df['SMA.L.tanner'],
+  "aTFusC.L.tanner": mod_df['aTFusC.L.tanner'],
+  "Ver9.tanner": mod_df['Ver9.tanner'],
+  "Salience.SMG.L.tanner": mod_df['Salience.SMG.L.tanner']}),
   reduced_dataframe['aMTG L'], 
   reduced_dataframe['ICC L'], 
   reduced_dataframe['SMA L'], 
@@ -1368,13 +1350,13 @@ pd.DataFrame(results_boot.describe(percentiles=[.025,.975])).iloc[[4,6],0:(resul
   # Moderation modularity 
     # dataframe
 modularity_mod = pd.concat([pd.DataFrame({
-  "AC.modularity": r.mod_df['AC.modularity'],
-  "aTFusC.L.modularity": r.mod_df['aTFusC.L.modularity'],
-  "DefaultMode.PCC.modularity'": r.mod_df['DefaultMode.PCC.modularity'],
-  "Ver3.modularity": r.mod_df['Ver3.modularity'],
-  "Ver9.modularity": r.mod_df['Ver9.modularity'],
-  "Salience.AInsula.R.modularity": r.mod_df['Salience.AInsula.R.modularity'],
-  "Cerebellar.Anterior.modularity": r.mod_df['Cerebellar.Anterior.modularity']}),
+  "AC.modularity": mod_df['AC.modularity'],
+  "aTFusC.L.modularity": mod_df['aTFusC.L.modularity'],
+  "DefaultMode.PCC.modularity'": mod_df['DefaultMode.PCC.modularity'],
+  "Ver3.modularity": mod_df['Ver3.modularity'],
+  "Ver9.modularity": mod_df['Ver9.modularity'],
+  "Salience.AInsula.R.modularity": mod_df['Salience.AInsula.R.modularity'],
+  "Cerebellar.Anterior.modularity": mod_df['Cerebellar.Anterior.modularity']}),
   reduced_dataframe['AC'], 
   reduced_dataframe['aTFusC L'],
   reduced_dataframe['DefaultMode.PCC'], 
