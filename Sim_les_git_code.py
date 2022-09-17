@@ -1028,6 +1028,9 @@ print("permuted p value =",perm_pvalue, "\n", "rounded permuted p = " ,round(per
 # PLOTTING PERMUTED R2 ADN MODEL PREDICTION
   # Permuted R2 distribition
 
+perm_scores_df=pd.DataFrame({"perm_scores":perm_scores})
+perm_scores_df.describe().iloc[1:8,]
+  
 fig, ax = plt.subplots()
 ax.set_axis_bgcolor('white')
 sns.histplot(perm_scores_df,bins=200, 
