@@ -765,7 +765,7 @@ model_s = GridSearchCV(
 
 from sklearn.feature_selection import SelectKBest, f_regression
 pred1_reduced = SelectKBest(f_regression, k=25).fit_transform(pred1, target)
-pred1_reduced_sex=pd.concat([data.sex, pd.DataFrame(pred1_reduced)],axis=1)
+pred1_reduced_sex=pd.concat([data.sex, pd.DataFrame(pred1_reduced), head_m_ave],axis=1)
 
 
 
