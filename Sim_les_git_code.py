@@ -120,6 +120,29 @@ for i in range(0,len(time_s)):
 
 
 
+# EXTRACTIG HEAD MOTION
+  ## here we extract the headmotiong variable to use as a covariate
+head_m=[]
+from joblib import parallel_backend
+with parallel_backend('threading', n_jobs=12): 
+    for i in range(0,len(csv_list)):
+        head_m.append(pd.read_csv(csv_list[i], header= None).iloc[:,169].to_numpy())
+    ## test to ensure we have the right number  
+len(head_m) == 86 # True
+
+  # averaging headmotion for each participant
+    ## will use this as a covariate later
+head_m_ave = []
+from joblib import parallel_backend
+with parallel_backend('threading', n_jobs=12): 
+    for i in head_m:
+        head_m_ave.append(np.average(i))
+    ## test to ensure right #
+len(head_m_ave) == 86 # True
+    ## Assigning to dataframe
+head_m_ave = pd.DataFrame({"h_move":head_m_ave})
+
+
 
 
 ### CONSTRUCTING PRECISION MATRICIES USING GRAPHICAL LASSO
