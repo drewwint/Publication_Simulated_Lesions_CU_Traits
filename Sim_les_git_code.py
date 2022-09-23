@@ -718,7 +718,8 @@ data.info()
 pred1 = pd.concat([pd.DataFrame([data.age,
                                  data.sex,
                                  data.tanner, 
-                                 data.modularity]).T,
+                                 data.modularity,
+                                 head_m_ave]).T,
                    node_eff_delta.iloc[:,0:164]],axis=1)
 pred1.sex = pred1.sex.astype('object')
 
@@ -765,7 +766,7 @@ model_s = GridSearchCV(
 
 from sklearn.feature_selection import SelectKBest, f_regression
 pred1_reduced = SelectKBest(f_regression, k=25).fit_transform(pred1, target)
-pred1_reduced_sex=pd.concat([data.sex, pd.DataFrame(pred1_reduced), head_m_ave],axis=1)
+pred1_reduced_sex=pd.concat([data.sex, pd.DataFrame(pred1_reduced)],axis=1)
 
 
 
