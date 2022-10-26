@@ -9,6 +9,8 @@ You can find the preprint for this project on [biorxive](https://doi.org/10.1101
     Winters, D. E., Leopold, D. R., Sakai, J. T., & Carter, R. M. (2022). Efficiency of heterogenous functional connectomes explains variance in callous-unemotional traits     
     after computational lesioning of cortical midline and salience regions. bioRxiv 2022.10.07.511379; doi: https://doi.org/10.1101/2022.10.07.511379 .
 
+OR
+
     @article{Winters2022,
         title = {{Efficiency of heterogenous functional connectomes explains variance in callous-unemotional traits     
     after computational lesioning of cortical midline and salience regions}},
