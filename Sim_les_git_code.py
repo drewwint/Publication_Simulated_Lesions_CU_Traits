@@ -199,8 +199,6 @@ with parallel_backend('threading', n_jobs=12):  ## running parallel processes fo
 
 eff_lesion = []
 delta_eff = []
-mod_lesion =[]
-delta_mod =[]
 
 from joblib import parallel_backend
 with parallel_backend('threading', n_jobs=12): 
