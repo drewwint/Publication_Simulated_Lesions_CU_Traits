@@ -22,7 +22,7 @@ OR
     }
 
 
-*NOTE* for the to obtain the atlases used you will have to download the default atlases from the [CONN Toolbox](https://web.conn-toolbox.org/).
+*NOTE* for the atlases used in this study you will have to download the default atlases from the [CONN Toolbox](https://web.conn-toolbox.org/).
 Specificaly you will need the atlas.nii and networks.nii files from CONN to replicate the parcelation used. 
 
 
